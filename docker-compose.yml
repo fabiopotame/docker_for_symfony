@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  web:
+    container_name: web_symfony
+    build: ./Dockerfiles
+    ports:
+      - "8888:80"
+    links:
+      - db:db
+      - redis:redis
+    volumes:
+      - ./www:/var/www/html/app/
+      - ./nginx-logs/:/var/log/nginx/
+
+  db:
+    container_name: db_symfony
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_USERNAME: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_DATABASE: "symfony"
+
+  redis:
+    container_name: redis_symfony
+    image: redis
+
+
